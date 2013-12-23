@@ -173,6 +173,10 @@ correct chronological place in the buffer."
                  (eshell-parse-arguments (point-min) (point-max))))
          (ledger-buf (current-buffer))
          exit-code)
+    ;; Default to today
+    (if (string-match ledger-partial-iso-date-regexp (car args))
+      (setq args (cons (concat (car args) (format-time-string "%d"))
+                   (cdr args))))
     (unless insert-at-point
       (let ((date (car args)))
         (if (string-match ledger-iso-date-regexp date)

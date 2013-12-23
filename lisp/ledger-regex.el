@@ -193,6 +193,16 @@
   (actual iso-date)
   (effective iso-date))
 
+(ledger-define-regexp partial-iso-date
+  (let ((sep '(or ?-  ?/)))
+    (rx (group
+         (and (group (? (= 4 num)))
+	      (eval sep)
+              (group (and num (? num)))
+              (eval sep)
+              word-boundary))))
+  "Match a single year and month without the date, in its 'written' form.")
+
 (ledger-define-regexp state
   (rx (group (any ?! ?*)))
   "Match a transaction or posting's \"state\" character.")
